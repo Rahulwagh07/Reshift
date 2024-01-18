@@ -1,4 +1,5 @@
-import mongoose from "mongoose";
+import mongoose, { Document} from 'mongoose';
+
 const taskSchema = new mongoose.Schema({
     title: { 
         type: String, 
@@ -42,4 +43,31 @@ const taskSchema = new mongoose.Schema({
     }],
   });
 
-  module.exports = mongoose.model("Task", taskSchema)
+interface Task {
+    title: string;
+    description?: string;
+    dueDate?: Date;
+    priority?: 'low' | 'medium' | 'high';
+    status?: 'To-Do' | 'In Progress' | 'Completed';
+    assignedUser?: mongoose.Types.ObjectId | { type: mongoose.Types.ObjectId; ref: 'User' };
+    comments?: Comment[];
+  }
+
+  interface Comment {
+    user: {
+      type: mongoose.Schema.Types.ObjectId;
+      ref: 'User';
+    };
+    text: string;
+    createdAt: {
+      type: Date;
+      default: Date;
+    };
+  }
+  
+  interface TaskDocument extends Task, Document {}
+  
+  const TaskModel = mongoose.model<TaskDocument>('Task', taskSchema);
+  
+  export default TaskModel;
+  
