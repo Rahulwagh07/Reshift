@@ -40,10 +40,12 @@ function SignupForm() {
             }
             throw new Error(response.data.message)
           }
+          toast.success("SignUp successful")
           router.push("/login")
       } catch (error) {
+        toast.error("Signup failed")
         console.log(error)
-          router.push("/signup")
+        router.push("/signup")
         }
       toast.dismiss(toastId)
     }

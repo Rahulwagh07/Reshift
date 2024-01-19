@@ -6,6 +6,7 @@ import { apiConnector } from '@/config/apiConnector'
 import { useRouter } from 'next/navigation'
 import { useDispatch } from 'react-redux'
 import { setToken, setUser } from '@/redux/slices/authSlice'
+import {toast} from "react-hot-toast"
 
 function LoginForm() { 
     const router = useRouter();
@@ -20,6 +21,7 @@ function LoginForm() {
     const { email, password } = formData;
 
     const login = async () => {
+        const toastId = toast.loading("processing..")
         try {
             const response = await apiConnector("POST", "/api/auth/login", {
                 email,
@@ -34,13 +36,15 @@ function LoginForm() {
             const token = JSON.stringify(response.data.token);
             localStorage.setItem('user',  user);
             localStorage.setItem("token",  token);
-            // dispatch(setUser(user));
-            // dispatch(setToken(token));
-            
-            router.push("/login")
+            dispatch(setUser(user));
+            dispatch(setToken(token));
+            toast.success("Logged In")
+            router.push("/dashboard")
             } catch (error) {
+            toast.error("Login Failed")
             router.push("/login")
             }
+            toast.dismiss(toastId)
         }
 
     const handleOnChange = (e:any) => {
