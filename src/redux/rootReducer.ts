@@ -6,6 +6,9 @@ import authSlice from "./slices/authSlice"
 
 // ----------------------------------------------------------------------
 
+// A function that creates a no-operation (noop) storage for 
+// situations where the window object is not available 
+// (e.g., server-side rendering)
 export const createNoopStorage = () => ({
   getItem(_key: string) {
     return Promise.resolve(null);
