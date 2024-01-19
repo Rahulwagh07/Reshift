@@ -4,9 +4,12 @@ import Link from 'next/link'
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
 import { apiConnector } from '@/config/apiConnector'
 import { useRouter } from 'next/navigation'
+import { useDispatch } from 'react-redux'
+import { setToken, setUser } from '@/redux/slices/authSlice'
 
 function LoginForm() { 
     const router = useRouter();
+    const dispatch = useDispatch();
     const [formData, setFormData] = useState({
         email: "",
         password: "",
@@ -22,11 +25,19 @@ function LoginForm() {
                 email,
                 password,
             })
+            console.log(response)
         
             if (!response.data.success) {
                 throw new Error(response.data.message)
             }
-            router.push("/signup")
+            const user = JSON.stringify(response.data.user);
+            const token = JSON.stringify(response.data.token);
+            localStorage.setItem('user',  user);
+            localStorage.setItem("token",  token);
+            // dispatch(setUser(user));
+            // dispatch(setToken(token));
+            
+            router.push("/login")
             } catch (error) {
             router.push("/login")
             }
