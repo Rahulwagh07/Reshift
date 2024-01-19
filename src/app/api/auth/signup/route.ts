@@ -25,9 +25,16 @@ export async function POST(req: NextRequest){
       return NextResponse.json({
         success: false,
         message: 'User already exists',
+        userExist: true,
       }, { status: 403 });
     }
 
+    if (typeof password !== 'string') {
+      return NextResponse.json({
+        success: false,
+        message: 'Invalid password format',
+      }, { status: 400 });
+    }
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await User.create({

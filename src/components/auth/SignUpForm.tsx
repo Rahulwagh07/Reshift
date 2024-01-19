@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation';
 import { apiConnector } from '@/config/apiConnector';
 import { useState } from 'react'; 
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
+import { toast } from 'react-hot-toast';
  
 function SignupForm() {
     const router = useRouter();
@@ -24,20 +25,27 @@ function SignupForm() {
       }
     
     const signUp = async () => {
-    try {
-        const response = await apiConnector("POST", "/api/auth/signup", {
-            name,
-            email,
-            password,
-        })
-    
-        if (!response.data.success) {
+      const toastId = toast.loading("processing..")
+      try {
+          const response = await apiConnector("POST", "/api/auth/signup", {
+              name,
+              email,
+              password,
+          })
+          
+          if (!response.data.success) { 
+            if(response.data.userExist === true){
+              toast.success("Already Registed with us..please Login")
+              router.push("/login")
+            }
             throw new Error(response.data.message)
+          }
+          router.push("/login")
+      } catch (error) {
+        console.log(error)
+          router.push("/signup")
         }
-        router.push("/login")
-        } catch (error) {
-        router.push("/signup")
-        }
+      toast.dismiss(toastId)
     }
 
       //form Submission

@@ -7,11 +7,11 @@ import { connectToMongoDB } from "@/config/database";
 
 dotenv.config();
 connectToMongoDB();
-export async function POST(req: NextRequest, res: NextResponse){
+export async function POST(req: NextRequest){
      
     const reqBody = await req.json()
 	try {
-		const { email, password } = reqBody;
+		const { email, password} : { email: string, password: string } = reqBody;
 		if (!email || !password) {
 			return NextResponse.json({
 				success: false,
@@ -39,25 +39,27 @@ export async function POST(req: NextRequest, res: NextResponse){
 					expiresIn: "24h",
 				}
 			);
-
 			// Save token to user document in database
-			user.token = token;
+			user.token= token;
 			user.password = undefined;
-            
+		
 			// Set cookie for token and return success response
 			const options = {
 				expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
 				httpOnly: true,
 			};
+			
 
-            // res.cookies.set("token", token) 
-
-            return NextResponse.json({
+            const response = NextResponse.json({
+				message: "User login successful",
 				success: true,
-				token,
-				user,
-				message: `User Login Success`,
-			}, { status : 200});
+				user: user,
+				token: token,
+			})
+			response.cookies.set("token", token, {
+				httpOnly: true,
+			})
+			return response;
 
 		} else {
 			return  NextResponse.json({
