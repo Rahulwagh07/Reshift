@@ -1,6 +1,6 @@
 import React from 'react'
 import { useRouter } from 'next/navigation';
-import { apiConnector } from '@/config/apiConnector';
+import { apiConnector } from '@/lib/apiConnector';
 import { useState } from 'react'; 
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
 import { toast } from 'react-hot-toast';
