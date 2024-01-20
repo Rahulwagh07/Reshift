@@ -65,9 +65,9 @@ interface Task {
     };
   }
   
-  interface TaskDocument extends Task, Document {}
+//   interface TaskDocument extends Task, Document {}
   
-  const TaskModel = mongoose.model<TaskDocument>('Task', taskSchema);
-  
-  export default TaskModel;
+  const Task = mongoose.models.Task  ||  mongoose.model("Task", taskSchema);
+
+export default Task;
   

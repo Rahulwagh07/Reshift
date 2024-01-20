@@ -5,18 +5,11 @@ if (typeof window !== "undefined") {
   const tokenFromLocalStorage = localStorage.getItem("token");
   token = tokenFromLocalStorage;
 }
-
-let user = null;
-if (typeof window !== "undefined") {
-  const userFromLocalStorage = localStorage.getItem("user");
-  user = userFromLocalStorage;
-}
-
+ 
 const initialState = {
   signupData: null,
   loading: false,
   token: token,
-  user: user,
 };
 
 const authSlice = createSlice({
@@ -32,11 +25,8 @@ const authSlice = createSlice({
     setToken(state, value) {
       state.token = value.payload;
     },
-    setUser(state, value) {
-      state.user = value.payload;
-    },
   },
 });
 
-export const { setSignupData, setLoading, setToken, setUser } = authSlice.actions;
+export const { setSignupData, setLoading, setToken} = authSlice.actions;
 export default authSlice.reducer;

@@ -1,41 +1,42 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose, { Document } from 'mongoose';
 
-const projectSchema =  new mongoose.Schema({
-    name: { 
-        type: String, 
-        required: true 
-    },
+const projectSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
 
-    description: { 
-        type: String 
-    },
+  description: {
+    type: String,
+  },
 
-    admin: { 
-        type: mongoose.Types.ObjectId, 
-        ref: 'User', required: true 
-    },
+  admin: {
+    type: mongoose.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
 
-    members: [{ 
-        type: mongoose.Types.ObjectId, 
-        ref: 'User' 
-    }],
+  members: [{
+    type: mongoose.Types.ObjectId,
+    ref: 'User',
+  }],
 
-    tasks: [{ 
-        type: mongoose.Types.ObjectId, 
-        ref: 'Task' 
-    }],
-  });
-  
+  tasks: [{
+    type: mongoose.Types.ObjectId,
+    ref: 'Task',
+  }],
+});
+
 interface Project {
   name: string;
   description?: string;
-  admin: mongoose.Types.ObjectId | { type: mongoose.Types.ObjectId; ref: 'User' };
-  members?: mongoose.Types.ObjectId[] | { type: mongoose.Types.ObjectId; ref: 'User' }[];
-  tasks?: mongoose.Types.ObjectId[] | { type: mongoose.Types.ObjectId; ref: 'Task' }[];
+  admin: mongoose.Types.ObjectId;
+  members?: mongoose.Types.ObjectId[];
+  tasks?: mongoose.Types.ObjectId[];
 }
-interface TaskDocument extends Project, Document {}
-  
-const TaskModel = mongoose.model<TaskDocument>('Task', projectSchema);
-  
-export default TaskModel;
-  
+
+// interface ProjectDocument extends Document, Project {}
+
+const Project = mongoose.models.Project || mongoose.model("Project", projectSchema);
+
+export default Project;

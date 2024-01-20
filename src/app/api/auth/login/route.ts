@@ -7,6 +7,7 @@ import { connectToMongoDB } from "@/lib/database";
 
 dotenv.config();
 connectToMongoDB();
+ 
 export async function POST(req: NextRequest){
      
     const reqBody = await req.json()
