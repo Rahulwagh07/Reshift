@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
-import { apiConnector } from '@/config/apiConnector'
+import { apiConnector } from '@/lib/apiConnector'
 import { useRouter } from 'next/navigation'
 import { useDispatch } from 'react-redux'
 import { setToken, setUser } from '@/redux/slices/authSlice'

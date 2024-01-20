@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import User from "../../../../models/User";
 import  jwt  from "jsonwebtoken";
 import dotenv from "dotenv";
-import { connectToMongoDB } from "@/config/database";
+import { connectToMongoDB } from "@/lib/database";
 
 dotenv.config();
 connectToMongoDB();
