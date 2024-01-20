@@ -5,8 +5,11 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
 import { apiConnector } from '@/lib/apiConnector'
 import { useRouter } from 'next/navigation'
 import { useDispatch } from 'react-redux'
-import { setToken, setUser } from '@/redux/slices/authSlice'
+import { setToken} from '@/redux/slices/authSlice'
+import { setUser } from '@/redux/slices/profileSlice'
 import {toast} from "react-hot-toast"
+import { User } from '@/types/user'
+import { ACCOUNT_TYPE } from '@/lib/constants'
 
 function LoginForm() { 
     const router = useRouter();
@@ -32,18 +35,26 @@ function LoginForm() {
             if (!response.data.success) {
                 throw new Error(response.data.message)
             }
-            const user = JSON.stringify(response.data.user);
-            const token = JSON.stringify(response.data.token);
-            localStorage.setItem('user',  user);
-            localStorage.setItem("token",  token);
+          
+            const user: User = JSON.parse(JSON.stringify(response.data.user));
+            const token: string = JSON.stringify(response.data.token);
+
+            localStorage.setItem('user', JSON.stringify(user));
+            localStorage.setItem('token', token);
             dispatch(setUser(user));
             dispatch(setToken(token));
+
             toast.success("Logged In")
-            router.push("/dashboard")
-            } catch (error) {
+            if(user.accountType === ACCOUNT_TYPE.ADMIN){
+                router.push("/admin/dashboard")
+            } else{
+                router.push("/dashboard")
+            }
+
+        } catch (error) {
             toast.error("Login Failed")
             router.push("/login")
-            }
+        }
             toast.dismiss(toastId)
         }
 

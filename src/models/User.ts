@@ -37,6 +37,6 @@ interface User {
 // interface UserDocument extends User, Document {}
 
 // const UserModel = mongoose.model<UserDocument>('User', userSchema);
-const UserModel = mongoose.models.user || mongoose.model("user", userSchema);
+const User = mongoose.models.User  ||  mongoose.model("User", userSchema);
 
-export default UserModel;
+export default User;

@@ -3,6 +3,7 @@ import createWebStorage from 'redux-persist/lib/storage/createWebStorage';
 
 // slices
 import authSlice from "./slices/authSlice"
+import profileSlice from './slices/profileSlice';
 
 // ----------------------------------------------------------------------
 
@@ -40,6 +41,7 @@ export const productPersistConfig = {
 
 const rootReducer = combineReducers({
    auth: authSlice,
+   profile: profileSlice,
 });
 
 export default rootReducer;
