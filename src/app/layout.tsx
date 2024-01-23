@@ -5,7 +5,7 @@ import './globals.css'
 import { Toaster } from 'react-hot-toast'
 import {Providers} from "../redux/Provider"
 const inter = Inter({ subsets: ['latin'] })
- 
+import Navbar from '@/components/common/Navbar'
 
 export const metadata: Metadata = {
   title: 'Reshift',
@@ -18,13 +18,14 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-     <Providers>
-        <html lang="en">
-        <body className={inter.className}>
-            <Toaster/>
-            {children}
-        </body>
-      </html>
-     </Providers>
+       <html lang='en'>
+       <body>
+         <Providers>
+             <Navbar/>
+             <Toaster/>
+             {children}
+         </Providers>
+       </body>
+     </html>
   )
 }
