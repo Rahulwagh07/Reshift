@@ -3,6 +3,7 @@ import { apiConnector } from '@/lib/apiConnector';
 import { RootState } from '../../../../redux/store';
 import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux';
+import PrivateRoute from '@/components/auth/PrivateRoute';
 
 function AdminDashboard() {
     const {user} = useSelector((state: RootState) => state.profile);
@@ -25,7 +26,9 @@ function AdminDashboard() {
         getAllproject();
     }, []);
   return (
-    <div>Admin Dashboard</div>
+    <PrivateRoute>
+        <div>Admin Dashboard</div>
+    </PrivateRoute>
   )
 }
 

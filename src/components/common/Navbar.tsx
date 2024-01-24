@@ -10,7 +10,7 @@ const Navbar = () => {
   const { token } = useSelector((state: RootState) => state.auth);
 
   return (
-    <div className="flex items-center justify-center dark:bg-slate-900 transition-all duration-300 section_bg py-4 box-shadow">
+    <div className="flex items-center justify-center dark:bg-slate-900 transition-all duration-300 py-4 shadow-md ">
       <div className="flex justify-between max-w-maxScreen w-10/12 text-lg relative h-[50px] sm:h-[40px]">
         <Link href="/" passHref className="flex gap-4 items-center justify-center">
           <Image src={Logo} alt="logo" className="" width={150} />

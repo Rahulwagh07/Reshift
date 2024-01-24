@@ -1,4 +1,5 @@
 "use client"
+import PrivateRoute from "@/components/auth/PrivateRoute";
 import { RootState } from "@/redux/store"
 import React from "react"
 import { useSelector } from "react-redux"
@@ -11,6 +12,8 @@ export default function Dashboard() {
     }
  
     return (
-        <div>User DashBoard {accountType}</div>
+        <PrivateRoute>
+            <div>User DashBoard {accountType}</div>
+        </PrivateRoute>
     )
 }
