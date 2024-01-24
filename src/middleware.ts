@@ -9,7 +9,7 @@ interface ExtendedRequest extends NextRequest {
 }
 export async function middleware(request: ExtendedRequest) {
     const path = request.nextUrl.pathname;
-    const isPublicPath = path === '/login' || path === '/signup';
+    const isPublicPath = path === '/login' || path === '/signup' || path === '/';
 
     const token = request.cookies.get('token')?.value || request.headers.get('Authorization')?.replace('Bearer ', '');
 
@@ -33,7 +33,5 @@ export async function middleware(request: ExtendedRequest) {
 }
 
 export const config = {
-    matcher: ['/', '/dashboard', '/login', '/signup', 
-    '/admin/dashboard', '/api/admin/project'
-],
+    matcher: ["/((?!api|static|.*\\..*|_next).*)"],
 };
