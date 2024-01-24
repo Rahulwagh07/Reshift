@@ -1,37 +1,59 @@
 import { NextResponse } from 'next/server';
-import { JWTPayload, jwtVerify } from 'jose';
+import {jwtVerify } from 'jose';
 import { getJwtSecretKey } from './lib/getJwtSecretKey';
 import type { NextRequest } from 'next/server';
-import { JwtPayload } from 'jsonwebtoken';
  
-interface ExtendedRequest extends NextRequest {
-    user : JwtPayload;
-}
-export async function middleware(request: ExtendedRequest) {
-    const path = request.nextUrl.pathname;
-    const isPublicPath = path === '/login' || path === '/signup' || path === '/';
+export async function middleware(request: NextRequest) {
+    let token: string | undefined;
+    const body = await request.text();
+    
+    let requestBody;
+    try {
+        requestBody = JSON.parse(body);
+    } catch (error) {
+        console.error('Error parsing request body:', error);
+    }
+    token = requestBody?.token;
 
-    const token = request.cookies.get('token')?.value || request.headers.get('Authorization')?.replace('Bearer ', '');
+    // If not found in body  check cookies and headers
+    if (!token) {
+    token = request.cookies.get('token')?.value ||
+            request.headers.get('Authorization')?.replace('Bearer ', '');
+    }
+    // if(!token){
+    //     return NextResponse.json({
+    //         message: "Token not Found",
+    //     }, {status: 401})
+    // }
 
-    if (isPublicPath && token) {
-        
+    if (token) {
         try {
             const { payload } = await jwtVerify(token, getJwtSecretKey());
-            request.user = payload;   //To do ?????
-            return NextResponse.redirect(new URL('/dashboard', request.nextUrl));  
+            const newHeaders = new Headers(request.headers)
+            const userId = (payload as { id: string }).id;
+            const email = (payload as { email: string }).email;
+            newHeaders.set('userId', userId);
+            newHeaders.set('email', email);
+            // And produce a response with the new headers
+            return NextResponse.next({
+            request: {
+                // New request headers
+                headers: newHeaders,
+            },
+            })
         } catch (error) {
             return NextResponse.json({
                 success: false,
                 message: 'JWT VERIFICATION FAILED',
             });
         }
-    }
-
-    if (!isPublicPath && !token) {
-        return NextResponse.redirect(new URL('/login', request.nextUrl));
-    }
+    }   
 }
 
 export const config = {
-    matcher: ["/((?!api|static|.*\\..*|_next).*)"],
+    matcher: [
+        '/dashboard',
+        '/admin/project',
+        '/api/admin/project',
+    ],
 };

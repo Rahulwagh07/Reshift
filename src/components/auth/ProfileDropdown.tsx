@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux"
 import Link from "next/link"
 import { FaCircleUser } from "react-icons/fa6";
  
-import useOnClickOutside from "@/hooks/useOnclickOutside"
+import useOnClickOutside from "@/hooks/useOnClickOutside"
 import { RootState } from "@/redux/store"
 import { useRouter } from "next/navigation"
 import logout from "@/lib/logout"

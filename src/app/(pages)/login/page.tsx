@@ -10,6 +10,7 @@ import { setUser } from '@/redux/slices/profileSlice'
 import {toast} from "react-hot-toast"
 import { User } from '@/types/user'
 import { ACCOUNT_TYPE } from '@/lib/constants'
+import OpenRoute from '@/components/auth/OpenRoute'
 
 function LoginForm() { 
     const router = useRouter();
@@ -71,7 +72,8 @@ function LoginForm() {
       }
 
   return (  
-     <div className='flex items-center justify-center mt-20'>
+      <OpenRoute>
+        <div className='flex items-center justify-center mt-20'>
         <form
         onSubmit={handleOnSubmit}
         className=''
@@ -129,6 +131,8 @@ function LoginForm() {
 
         </form>
      </div>
+      </OpenRoute>
+      
   )
 }
 

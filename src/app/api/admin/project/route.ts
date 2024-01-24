@@ -48,13 +48,14 @@ export async function POST(req: NextRequest) {
 
 
 //For getting all project by an admin
-export async function PUT(req: NextRequest) {   //why GET req is  not working if userId not passed directly ??????
+//why GET req is  not working if userId not passed directly ??????
+export async function PUT(req: NextRequest) {    
+  const userId = req.headers.get('userid');
   try {
-    const {userId} = await req.json();
     if (!userId) {
       return NextResponse.json({
         success: false,
-        message: "Invalid request payload. userID is missing.",
+        message: "userID is missing.",
       }, { status: 400 });
     }
 

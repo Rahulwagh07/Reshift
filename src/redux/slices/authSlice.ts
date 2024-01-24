@@ -17,7 +17,6 @@ let token = null;
 
 const getStorLocal = (item: string) => {
   if (typeof localStorage !== 'undefined') {
-    console.log("TOKEN2", localStorage.getItem(item))
     return localStorage.getItem(item);
      
   }
