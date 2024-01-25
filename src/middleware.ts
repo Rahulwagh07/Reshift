@@ -11,7 +11,7 @@ export async function middleware(request: NextRequest) {
     try {
         requestBody = JSON.parse(body);
     } catch (error) {
-        console.error('Error parsing request body:', error);
+        // console.error('Error parsing request body:', error);
     }
     token = requestBody?.token;
 
@@ -20,6 +20,7 @@ export async function middleware(request: NextRequest) {
     token = request.cookies.get('token')?.value ||
             request.headers.get('Authorization')?.replace('Bearer ', '');
     }
+     
     // if(!token){
     //     return NextResponse.json({
     //         message: "Token not Found",
@@ -34,6 +35,7 @@ export async function middleware(request: NextRequest) {
             const email = (payload as { email: string }).email;
             newHeaders.set('userId', userId);
             newHeaders.set('email', email);
+    
             // And produce a response with the new headers
             return NextResponse.next({
             request: {

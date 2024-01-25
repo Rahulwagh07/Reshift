@@ -25,8 +25,8 @@ export default function RootLayout({
        <body>
          <Providers>
              <Toaster/>
+             <Navbar/>
              <ClientApplication>
-              <Navbar/>
               {children}
              </ClientApplication>
          </Providers>

@@ -45,10 +45,10 @@ export async function POST(req: NextRequest){
 			user.password = undefined;
 		
 			// Set cookie for token and return success response
-			// const options = {
-			// 	expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
-			// 	httpOnly: true,
-			// };
+			const options = {
+				expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+				httpOnly: true,
+			};
 			
 
             const response = NextResponse.json({
@@ -57,9 +57,9 @@ export async function POST(req: NextRequest){
 				user: user,
 				token: token,
 			})
-			// response.cookies.set("token", token, {
-			// 	httpOnly: true,
-			// })
+			response.cookies.set("token", token, {
+				httpOnly: true,
+			})
 			return response;
 
 		} else {
