@@ -4,7 +4,7 @@ import { User } from '@/types/user';
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react'
 
-function ClientApplication({children}) {
+function ClientApplication({children} : {children : any}) {
   const router = useRouter();
   useEffect(() => {
     
