@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
 //For getting all project by an admin
 //why GET req is  not working if userId not passed directly ??????
 export async function PUT(req: NextRequest) {    
-  const userId = req.headers.get('userid');
+  const userId = req.headers.get('userId');
   try {
     if (!userId) {
       return NextResponse.json({

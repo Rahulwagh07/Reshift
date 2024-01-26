@@ -33,8 +33,10 @@ export async function middleware(request: NextRequest) {
             const newHeaders = new Headers(request.headers)
             const userId = (payload as { id: string }).id;
             const email = (payload as { email: string }).email;
+            const accountType = (payload as {accountType:string }).accountType;
             newHeaders.set('userId', userId);
             newHeaders.set('email', email);
+            newHeaders.set('accountType', accountType);
     
             // And produce a response with the new headers
             return NextResponse.next({
@@ -57,5 +59,6 @@ export const config = {
         '/dashboard',
         '/admin/project',
         '/api/admin/project',
+        '/api/admin/createTask',
     ],
 };
