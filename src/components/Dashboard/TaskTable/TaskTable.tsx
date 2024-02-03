@@ -3,6 +3,8 @@ import { RootState } from "@/redux/store";
 import { Task } from "@/types/task";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { CiChat1 } from "react-icons/ci";
+
  
  const TaskTable = ({projectId}:{projectId : string}) => {
     const {token} = useSelector((state: RootState) => state.auth)
@@ -18,6 +20,7 @@ import { useSelector } from "react-redux";
     
             if (response.data.success === true) {
                 setTaskData(response.data.data);
+                console.log("res", response.data.data)
             } else {
                 console.log("Failed to fetch Task data:", response.data.message);
             }
@@ -53,7 +56,8 @@ import { useSelector } from "react-redux";
                         <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-pure-greys-900">{task.title}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-pure-greys-500">{task.status}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-pure-greys-500">{task.priority}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-pure-greys-500">{task.assignedUser}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-pure-greys-500 flex items-center gap-2">{task.assignedUser?.name}
+                         <CiChat1 className="cursor-pointer"/></td>
                     </tr>
                 ))}
             </tbody>

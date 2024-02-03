@@ -7,6 +7,7 @@ import TaskTable from '@/components/Dashboard/TaskTable/TaskTable';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import Loading from '../loading';
+import CreateTask from './createTask/page';
 
 export default function ProjectPage() {
     const params = useParams<{ projectId: string }>();
@@ -18,9 +19,9 @@ export default function ProjectPage() {
             case 'tasks':
                 return <TaskTable projectId={projectId} />;
             case 'members':
-                return <Loading />;
+                return <div>Add new member</div>;
             case 'newTask':
-                return <TaskTable projectId={projectId} />;
+                return <CreateTask/>;
             default:
                 return null;
         }

@@ -74,7 +74,17 @@ export async function PUT(req: NextRequest) {
             }, { status: 400 });
         }
 
-        const project = await Project.findById(projectId).populate('tasks');
+        // const project = await Project.findById(projectId).populate('tasks');
+        const project = await Project.findById(projectId)
+            .populate({
+                path: 'tasks',
+                select: '',
+                populate: {
+                    path: 'assignedUser',
+                    select: ''
+                }
+            });
+
         if (!project) {
             return NextResponse.json({
                 success: false,
