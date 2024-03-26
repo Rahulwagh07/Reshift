@@ -6,6 +6,8 @@ import { Toaster } from 'react-hot-toast'
 import {Providers} from "../redux/Provider"
 import Navbar from "../components/common/Navbar";
 import ClientApplication from "../components/ClientApplication";
+import {SocketProvider} from "../context/SocketProvider"
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -20,15 +22,17 @@ export default function RootLayout({
 }): JSX.Element {
   return (
     <html lang='en'>
-       <body>
-         <Providers>
-             <Toaster/>
-             <Navbar/>
-             <ClientApplication>
-              {children}
-             </ClientApplication>
-         </Providers>
-       </body>
+        <SocketProvider>
+          <body>
+            <Providers>
+                <Toaster/>
+                <Navbar/>
+                <ClientApplication>
+                  {children}
+                </ClientApplication>
+            </Providers>
+          </body>
+        </SocketProvider>
      </html>
   );
 }

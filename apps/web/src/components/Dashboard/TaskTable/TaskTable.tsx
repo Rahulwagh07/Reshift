@@ -59,7 +59,7 @@ import { Chatbox } from "../drawer";
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-pure-greys-500">{task.status}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-pure-greys-500">{task.priority}</td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-pure-greys-500 flex items-center gap-2">{task.assignedUser?.name}
-                        <Chatbox/></td>
+                        <Chatbox taskId={task._id} /></td>
                     </tr>
                 ))}
             </tbody>
