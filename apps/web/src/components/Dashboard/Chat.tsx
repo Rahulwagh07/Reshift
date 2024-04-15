@@ -23,33 +23,32 @@ const Chat = ({ groupId }: { groupId: string }) => {
   const [loading, setLoading] = useState(false);
 
   const getAllMessagesForGroup = async (groupId: string) => {
-    const url = "http://localhost:8000/api/messages";
-    const toastId = toast.loading("getting message..");
+    const url = `http://localhost:8000/api/messages?taskId=${groupId}`; 
+    const toastId = toast.loading("Getting messages...");
     try {
-        setLoading(true);
-        const response = await apiConnector('POST', `http://localhost:8000/api/messages`, {groupId}, {
-            "Content-Type": "application/json",
-        });
+      setLoading(true);
+      const response = await apiConnector('GET', url, null);
   
-        if (response.data) {
-            console.log("Messages for group:", response.data);
-            setPreviousMessages(response.data);
-            return response.data;
-        } else {
-            console.log("Failed to fetch messages for group");
-            return [];
-        }
-        setLoading(false);
-    } catch (error) {
-        console.log("Error fetching messages:", error);
+      if (response.data) {
+        console.log("Messages for group:", response.data);
+        setPreviousMessages(response.data);
+        return response.data;
+      } else {
+        console.log("Failed to fetch messages for group");
         return [];
+      }
+    } catch (error) {
+      console.log("Error fetching messages:", error);
+      return [];
+    } finally {
+      setLoading(false);  
+      toast.dismiss(toastId);  
     }
-    toast.dismiss(toastId);
-  }
-
-  // useEffect(() => {
-  //   getAllMessagesForGroup(groupId);
-  // }, []);
+  };
+  
+  useEffect(() => {
+    getAllMessagesForGroup(groupId);
+  }, []);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -69,15 +68,16 @@ const Chat = ({ groupId }: { groupId: string }) => {
             previousMessages.map((msg, index) => (
               <div key={index} className="flex flex-col">
                 <span className="text-red-500">prev user</span>
-                <span>{msg}</span>
+                <span>{msg.text}</span>
               </div>
             ))
           )}
           
           {messages.map((msg, index) => (
             <div key={index} className="flex flex-col">
-              <span className="text-red-500">{msg.userId}</span>
+              <span>{msg.userId}</span>
               <span>{msg.text}</span>
+              <span>Gid {msg.groupId}</span>
             </div>
           ))}
         </div>

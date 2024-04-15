@@ -56,22 +56,44 @@ export async function startMessageConsumer() {
       const messageString = message.value!.toString();
       const messageObject = JSON.parse(messageString);
       const { text, groupId, userId } = messageObject.message;
-       
       try {
-        const res =  await prismaClient.message.create({
+        let groupID: string;
+      
+        // Check if the group already exists
+        const existingGroup = await prismaClient.group.findUnique({
+          where: {
+            id: groupId
+          },
+        });
+      
+        // If the group doesn't exist, create it
+        if (!existingGroup) {
+          const newGroup = await prismaClient.group.create({
+            data: {
+              taskId: groupId,
+            },
+          });
+          groupID = newGroup.id;
+        } else {
+          groupID = existingGroup.id;
+        }
+      
+        // Create the message
+        const res = await prismaClient.message.create({
           data: {
-             text: text,
-             groupId: groupId,
-             userId: userId,
+            text: text,
+            groupId: groupId,
+            userId: userId,
           },
         });
       } catch (error) {
-        console.log("Error in saving messages to DB", error);
+        console.log("Error in creating group or saving message to DB", error);
         pause();
         setTimeout(() => {
           consumer.resume([{ topic: "GROUPCHATS" }]);
         }, 60 * 1000);
       }
+      
     },
   });
 }
