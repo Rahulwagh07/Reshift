@@ -10,8 +10,7 @@ import { setUser } from '../../../redux/slices/profileSlice'
 import {toast} from "react-hot-toast"
 import { User } from '../../../types/user'
 import { ACCOUNT_TYPE } from '../../../lib/constants'
-import OpenRoute from '../../../components/auth/OpenRoute'
-
+ 
 function LoginForm() { 
     const router = useRouter();
     const dispatch = useDispatch();
@@ -31,8 +30,7 @@ function LoginForm() {
                 email,
                 password,
             })
-            console.log(response)
-        
+          
             if (!response.data.success) {
                 throw new Error(response.data.message)
             }
@@ -72,66 +70,66 @@ function LoginForm() {
       }
 
   return (  
-      <OpenRoute>
-        <div className='flex items-center justify-center mt-20'>
+    <div className='flex items-center justify-center mt-20'>
         <form
         onSubmit={handleOnSubmit}
         className=''
         >
-
         <label className="w-full">
-                <p className="mb-3 mt-5 leading-[1.375rem] text-black">
-                Email Address <sup className="text-pink-200">*</sup>
-                </p>
-                <input
-                required
-                type="text"
-                name="email"
-                value={email}
-                onChange={handleOnChange}
-                placeholder="Enter email address"
-                className="w-[325px] sm:w-[260px] h-[50px]  px-2 border border-sky-500  focus:outline-none rounded-md mb-4 "
-                />
-            </label>
+            <p className="mb-3 mt-5 leading-[1.375rem] text-black">
+            Email Address <sup className="text-pink-200">*</sup>
+            </p>
+            <input
+            required
+            type="text"
+            name="email"
+            value={email}
+            onChange={handleOnChange}
+            placeholder="Enter email address"
+            className="w-[325px] sm:w-[260px] h-[50px]  px-2 border border-sky-500  focus:outline-none rounded-md mb-4 "
+            />
+        </label>
 
-            <label className="relative">
-                <p className="mb-3 leading-[1.375rem] text-black">
-                Password <sup className="text-pink-200">*</sup>
-                </p>
-                <input
+        <label className="relative">
+            <p className="mb-3 leading-[1.375rem] text-black">
+            Password <sup className="text-pink-200">*</sup>
+            </p>
+            <input
                 required
                 type={showPassword ? "text" : "password"}
                 name="password"
                 value={password}
                 onChange={handleOnChange}
                 placeholder="Enter Password"
-                className="w-[325px] sm:w-[260px] h-[50px] px-2 border border-sky-500 focus:outline-none rounded-md mb-4"
-                />
-                <span
-                onClick={() => setShowPassword((prev) => !prev)}
-                className="absolute right-4 z-[10] cursor-pointer mt-3" 
-                >
-                {showPassword ? (
-                    <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF" />
-                ) : (
-                    <AiOutlineEye fontSize={24} fill="#AFB2BF" />
-                )}
-                </span>
-                <Link href={"/forgot-password"} >
-                    <span className="mt-2 flex items-center justify-center text-sm font-semibold text-black hover:text-blue-150">Forgot Password</span>
-                </Link>
-            </label>
-
-            <button
-                type="submit"
-                className="mt-6 border bg-blue-150 border-red-500 rounded-[8px] py-[8px] px-[12px] font-medium text-white-25 w-full"
+                className="w-[325px] sm:w-[260px] h-[50px] px-2 
+                border border-sky-500 focus:outline-none rounded-md mb-4"
+            />
+            <span
+            onClick={() => setShowPassword((prev) => !prev)}
+            className="absolute right-4 z-[10] cursor-pointer mt-3" 
             >
-                Next
-            </button>
+            {showPassword ? (
+                <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF" />
+            ) : (
+                <AiOutlineEye fontSize={24} fill="#AFB2BF" />
+            )}
+            </span>
+            <Link href={"/forgot-password"} >
+                <span className="mt-2 flex items-center justify-center text-sm 
+                font-semibold text-black hover:text-blue-150">
+                Forgot Password
+                </span>
+            </Link>
+        </label>
+
+        <button
+            type="submit"
+            className="mt-6 border bg-blue-150 border-red-500 rounded-[8px] py-[8px] px-[12px] font-medium text-white-25 w-full"
+        >
+            Next
+        </button>
         </form>
-     </div>
-      </OpenRoute>
-      
+    </div>
   )
 }
 

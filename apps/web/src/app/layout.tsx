@@ -5,7 +5,6 @@ import { Inter } from "next/font/google";
 import { Toaster } from 'react-hot-toast'
 import {Providers} from "../redux/Provider"
 import Navbar from "../components/common/Navbar";
-import ClientApplication from "../components/ClientApplication";
 import {SocketProvider} from "../context/SocketProvider"
 
 const inter = Inter({ subsets: ["latin"] });
@@ -27,9 +26,7 @@ export default function RootLayout({
             <Providers>
                 <Toaster/>
                 <Navbar/>
-                <ClientApplication>
-                  {children}
-                </ClientApplication>
+                {children}
             </Providers>
           </body>
         </SocketProvider>

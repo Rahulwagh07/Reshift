@@ -3,15 +3,24 @@ import { apiConnector } from '../../../../lib/apiConnector';
 import { RootState } from '../../../../redux/store';
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
-import PrivateRoute from '../../../../components/auth/PrivateRoute';
-import Sidebar from '../../../../components/Dashboard/Sidebar';
 import { Project } from '../../../../types/project';
-
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import Spinner from '../../../../components/common/Spinner';
+ 
 function AdminDashboard() {
     const {token} = useSelector((state: RootState) => state.auth)
-    const [projectData, setProjectData] = useState<Project[]>([]);
+    const [projects, setprojects] = useState<Project[]>([]);
+    const router = useRouter();
+    const [loading, setLoading] = useState(false)
+    const handleOnProjectClick = (projectId: string) => {
+        return () => {
+            router.push(`/admin/dashboard/${projectId}`);
+        };
+    }
 
     const getAllproject = async () => {
+        setLoading(true)
         try {
             const response = await apiConnector("PUT", "/api/admin/project", null, {
                 Authorization: `Bearer ${token}`,
@@ -19,11 +28,11 @@ function AdminDashboard() {
             });
     
             if (response.data.success === true) {
-                setProjectData(response.data.data);
-            } else {
-                console.log("Failed to fetch project data:", response.data.message);
-            }
+                setprojects(response.data.data);
+            } 
+            setLoading(false)
         } catch (error) {
+            setLoading(false)
             console.log("Error", error);
         }
     }
@@ -33,15 +42,30 @@ function AdminDashboard() {
     }, []);
     
   return (
-    <PrivateRoute>
-        <div className="relative flex sm:flex-col min-h-[calc(100vh-30.5rem)]">
-        <Sidebar projects={projectData}/>
-        <div className="h-[calc(100vh-3.5rem)] flex-1 overflow-auto">
-          <div className="mx-auto w-11/12 max-w-[800px] py-10">
-          </div>
+    <div className="w-10/12 flex flex-col items-center border border-red-500 mx-auto mt-8 p-4">
+    <Link href={"/admin/createProject"} className='px-3 rounded-md py-2 border border-blue-150'>
+        Create New
+    </Link>
+    <h2 className='text-3xl'>Your Projects</h2>
+    {loading ? (
+        <div className="flex justify-center items-center mt-20 mb-12">
+        <Spinner />
         </div>
+    ) : (
+        <div className="grid lg:grid-cols-2 gap-8 mt-5">
+        {projects?.map((project) => (
+            <div
+            key={project._id}
+            className='flex flex-col items-center cursor-pointer border border-blue-150 p-3 rounded-md'
+            onClick={handleOnProjectClick(project._id)}
+            >
+            <span className='text-lg text-sky-400 font-semibold'>{project.name}</span>
+            <p>{project.description}</p>
+            </div>
+        ))}
+        </div>
+    )}
     </div>
-    </PrivateRoute>
   )
 }
 

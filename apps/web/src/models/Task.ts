@@ -29,18 +29,6 @@ const taskSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'User' 
     },
-
-    comments: [{ 
-        user: { 
-            type: mongoose.Schema.Types.ObjectId, 
-            ref: 'User' 
-        }, 
-        text: String, 
-        createdAt: { 
-            type: Date, 
-            default: Date.now 
-        } 
-    }],
   });
 
 interface Task {
@@ -50,21 +38,8 @@ interface Task {
     priority?: 'low' | 'medium' | 'high';
     status?: 'To-Do' | 'In Progress' | 'Completed';
     assignedUser?: mongoose.Types.ObjectId | { type: mongoose.Types.ObjectId; ref: 'User' };
-    comments?: Comment[];
   }
 
-  interface Comment {
-    user: {
-      type: mongoose.Schema.Types.ObjectId;
-      ref: 'User';
-    };
-    text: string;
-    createdAt: {
-      type: Date;
-      default: Date;
-    };
-  }
-  
 //   interface TaskDocument extends Task, Document {}
   
   const Task = mongoose.models.Task  ||  mongoose.model("Task", taskSchema);

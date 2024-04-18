@@ -1,25 +1,35 @@
 "use client"
- 
- 
-import PrivateRoute from "../../../components/auth/PrivateRoute";
-import { RootState } from "../../../redux/store";
-import Link from "next/link";
-import React from "react"
+import React, { useEffect, useState } from "react"
+import { apiConnector } from "../../../lib/apiConnector"
 import { useSelector } from "react-redux"
-export default function Dashboard() {
-    const { user } = useSelector((state: RootState) => state.profile);
+import { RootState } from "../../../redux/store"
+import Task from "../../../models/Task"
 
-    let accountType: string = "";
-    if (user !== null && typeof user === 'object') {
-        accountType = user.accountType;
+export default function Dashboard() {
+    const [tasks, setTasks] = useState<Task[]>([]);
+    const { token } = useSelector((state: RootState) => state.auth)
+
+    const getAllTask = async () => {
+        try{
+            const response = await apiConnector("GET", "/api/dahsboard", null, {
+                Authorization: `Bearer ${token}`
+            })
+            if(!response.data.success){
+                throw new Error(response.data.message);
+            }
+            setTasks(response.data.data)
+        } catch(error){
+            console.log("Erron in fetching assigned task", error)
+        }
     }
- 
+
+    useEffect(() => {
+        getAllTask();
+    }, []);
+
     return (
-        <PrivateRoute>
-             <div>User DashBoard {accountType}</div>
-            <Link href={'/admin/dashboard'} className="mt-12 border border-blue-150"> 
-            Go to admin dashboard</Link>
-   
-        </PrivateRoute>
+        <div>
+            <h1>Your task</h1>
+        </div>
     )
 }

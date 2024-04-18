@@ -1,20 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-// let token = null;
-// const getStorLocal = (item:string) => {
-//   if (typeof localStorage !== 'undefined') {
-//       return localStorage.getItem(item);
-//   }
-//   return null;
-// }
-// // if (typeof window !== "undefined") {
-// //   const tokenFromLocalStorage = localStorage.getItem("token");
-// //   token = tokenFromLocalStorage;
-// // }
-//  token = getStorLocal(token);
-
 let token = null;
-
 const getStorLocal = (item: string) => {
   if (typeof localStorage !== 'undefined') {
     return localStorage.getItem(item);
@@ -23,10 +9,7 @@ const getStorLocal = (item: string) => {
   return null;
 }
 
-// Check if token is not null before calling getStorLocal
- 
-  token = getStorLocal("token") || null;
- 
+token = getStorLocal("token") || null;
  
 const initialState = {
   signupData: null,

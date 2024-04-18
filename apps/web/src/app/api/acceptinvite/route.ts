@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import Token from "../../../models/Token";
 import Project from "../../../models/Project";
+
 export async function POST(req: NextRequest, res: NextResponse) {
     try {
         const { email, secretToken} = await req.json();
@@ -17,7 +18,6 @@ export async function POST(req: NextRequest, res: NextResponse) {
             }, { status: 404 });
         }
          
-
         const { token } = tokenData;
         const { projectId } = tokenData;
 
@@ -56,6 +56,5 @@ export async function POST(req: NextRequest, res: NextResponse) {
             success: false,
             message: 'Internal server error',
         }, { status: 500 });
-  
     }
 }

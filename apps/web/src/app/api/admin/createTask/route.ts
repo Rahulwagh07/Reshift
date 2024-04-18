@@ -20,7 +20,6 @@ export async function POST(req: NextRequest) {
             }, { status: 500 });
         }
 
-        // Create a new task
         const newTask = new Task({
             title,
             description,
@@ -30,10 +29,8 @@ export async function POST(req: NextRequest) {
             assignedUser,
         });
 
-        // Save the task to the database
         const savedTask = await newTask.save();
         
-        // Find the project by projectId and update to include taskId
         const project = await Project.findById(projectId);
         if (!project) {
             return NextResponse.json({
@@ -45,11 +42,11 @@ export async function POST(req: NextRequest) {
         project.tasks.push(savedTask._id);  
         await project.save();
 
-        // Response with the saved task
         return NextResponse.json({
             success: true,
             data: savedTask,
         }, { status: 200 });
+
     } catch (error) {
         console.error('Error creating task:', error);
         return NextResponse.json({
@@ -64,7 +61,6 @@ export async function PUT(req: NextRequest) {
     try {
         const { projectId } = await req.json();
 
-        // Check if projectId is missing 
         if (!projectId) {
             return NextResponse.json({
                 success: false,
@@ -72,14 +68,13 @@ export async function PUT(req: NextRequest) {
             }, { status: 400 });
         }
 
-        // const project = await Project.findById(projectId).populate('tasks');
         const project = await Project.findById(projectId)
             .populate({
                 path: 'tasks',
                 select: '',
                 populate: {
                     path: 'assignedUser',
-                    select: ''
+                    select: '-password'
                 }
             });
 
@@ -89,8 +84,6 @@ export async function PUT(req: NextRequest) {
                 message: "Project not found.",
             }, { status: 404 });
         }
-
-        // get the tasks from the project
         const tasks = project.tasks;
 
         return NextResponse.json({
@@ -98,6 +91,7 @@ export async function PUT(req: NextRequest) {
             data: tasks,
             message: "Tasks fetched successfully",
         }, { status: 200 });
+        
     } catch (error) {
         console.error("Error fetching tasks:", error);
         return NextResponse.json({

@@ -11,7 +11,6 @@ const AddMemberPage = () => {
         email: "",
         secretToken: "",
       })
-
     const {email, secretToken} = formData
 
     const handleOnChange = (e:any) => {
@@ -36,8 +35,6 @@ const AddMemberPage = () => {
         }
       toast.dismiss(toastId)
     }
-
-      //form Submission
     const handleOnSubmit = (e:any) => {
         e.preventDefault()
         // Reset
@@ -46,12 +43,11 @@ const AddMemberPage = () => {
         secretToken: "",
         })
         sendInvite();
-    }
-        
+    }  
+
     return (
-        <div className='flex flex-col items-center justify-center text-black mt-10'>
-        <form onSubmit={handleOnSubmit} className="flex w-[400px] flex-col items-center  justify-center gap-4">
-         
+      <div className='flex flex-col items-center justify-center text-black mt-10'>
+      <form onSubmit={handleOnSubmit} className="flex w-[400px] flex-col items-center  justify-center gap-4"> 
         <label className="w-full">
           <p className="mb-1">
             Email Address <sup className="text-pink-200">*</sup>
@@ -66,32 +62,28 @@ const AddMemberPage = () => {
             className="h-[50px] w-full rounded-md border border-sky-500 focus:outline-none pl-2"
           />
         </label>
-          <label className='w-full'>
-            <p className="mb-1">
-            Secter key <sup className="text-pink-200">*</sup>
-            </p>
-            <input
-              required
-              type="text"
-              name="name"
-              onChange={handleOnChange}
-              placeholder="Enter secret key"
-              className="h-[50px] w-full rounded-md border border-sky-500 focus:outline-none pl-2"
-            />
-          </label>
-      
-         
-        
+        <label className='w-full'>
+          <p className="mb-1">
+          Secter key <sup className="text-pink-200">*</sup>
+          </p>
+          <input
+            required
+            type="text"
+            name="name"
+            onChange={handleOnChange}
+            placeholder="Enter secret key"
+            className="h-[50px] w-full rounded-md border border-sky-500 focus:outline-none pl-2"
+          />
+        </label>
         <button
           type="submit"
           className="bg-blue-150 h-[50px] sm:h-[42px] sm:w-[260px] py-2 px-10 text-white-25 rounded flex items-center justify-center mb-4"
         >
-        Join Team
+          Join Team
         </button>
-       
-      </form>
-        </div>
-    );
+    </form>
+  </div>
+  );
 };
 
 export default AddMemberPage;

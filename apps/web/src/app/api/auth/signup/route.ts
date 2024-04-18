@@ -10,7 +10,6 @@ connectToMongoDB();
 export async function POST(req: NextRequest){
   const reqBody = await req.json()
   try {
-    
     const {name, email, password} = reqBody;
     if (!name || !email || !password) {
       return NextResponse.json({

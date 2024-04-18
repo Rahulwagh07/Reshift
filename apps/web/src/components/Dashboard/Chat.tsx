@@ -1,30 +1,33 @@
-// ChatboxComponent.tsx
 import React, { useEffect, useState } from "react";
 import { useSocket } from "../../context/SocketProvider";
 import { apiConnector } from "../../lib/apiConnector";
-import { toast } from "react-hot-toast";
+import { useSelector } from "react-redux";
+import { RootState } from "../../redux/store";
+import { FaRegUserCircle } from "react-icons/fa";
+import Spinner from "../common/Spinner";
 
 interface Message{
   text: string,
-  groupId: string,
+  taskId: string,
   userId: string,
+  userName: string,
 }
 
-const Chat = ({ groupId }: { groupId: string }) => {
+const Chat = ({ taskId }: { taskId: string }) => {
   const { messages, sendMessage } = useSocket();
+  const { user } = useSelector((state: RootState) => state.profile);
   const initialMessage: Message = {
     text: '',
-    groupId: groupId,
-    userId: "65ac26f3b168b6af3bca8dd5",
+    taskId: taskId,
+    userId: user._id,
+    userName: user.name,
   };
-  
   const [message, setMessage] = useState<Message>(initialMessage);
   const [previousMessages, setPreviousMessages] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
 
-  const getAllMessagesForGroup = async (groupId: string) => {
-    const url = `http://localhost:8000/api/messages?taskId=${groupId}`; 
-    const toastId = toast.loading("Getting messages...");
+  const getAllMessagesForGroup = async (taskId: string) => {
+    const url = `http://localhost:8000/api/messages?taskId=${taskId}`; 
     try {
       setLoading(true);
       const response = await apiConnector('GET', url, null);
@@ -42,13 +45,12 @@ const Chat = ({ groupId }: { groupId: string }) => {
       return [];
     } finally {
       setLoading(false);  
-      toast.dismiss(toastId);  
     }
   };
   
   useEffect(() => {
-    getAllMessagesForGroup(groupId);
-  }, []);
+    getAllMessagesForGroup(taskId);
+  }, [taskId]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -59,25 +61,27 @@ const Chat = ({ groupId }: { groupId: string }) => {
   return (
     <div className="flex flex-col gap-4">
       {loading ? (
-        <div>Fetching messages</div>
+        <Spinner/> 
       ) : (
-        <div className="border mt-6 border-red-500 flex items-center justify-center">
+        <div className="mt-6 flex flex-col">
           {previousMessages.length === 0 ? (
-            <div>No messages till now</div>
+            <Spinner></Spinner> 
           ) : (
             previousMessages.map((msg, index) => (
               <div key={index} className="flex flex-col">
-                <span className="text-red-500">prev user</span>
-                <span>{msg.text}</span>
+                <div className="flex gap-2 items-baseline">
+                  <FaRegUserCircle/>
+                  <span className="text-red-500">{msg.userName}</span>
+                </div>
+                <span className="inline-block p-1 rounded-md border border-blue-150">{msg.text}</span>
               </div>
             ))
           )}
           
           {messages.map((msg, index) => (
             <div key={index} className="flex flex-col">
-              <span>{msg.userId}</span>
+              <span>{msg.userName}</span>
               <span>{msg.text}</span>
-              <span>Gid {msg.groupId}</span>
             </div>
           ))}
         </div>

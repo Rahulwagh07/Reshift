@@ -12,9 +12,7 @@ function SignupForm() {
         email: "",
         password: "",
       })
-
     const [showPassword, setShowPassword] = useState(false)
-
     const {name, email, password} = formData
 
     const handleOnChange = (e:any) => {
@@ -50,7 +48,6 @@ function SignupForm() {
       toast.dismiss(toastId)
     }
 
-      //form Submission
     const handleOnSubmit = (e:any) => {
         e.preventDefault()
         // Reset
@@ -62,13 +59,9 @@ function SignupForm() {
         signUp();
     }
         
-    
-     
   return (
     <div className='flex flex-col items-center justify-center text-black mt-2'>
-       
         <form onSubmit={handleOnSubmit} className="flex w-full flex-col items-center  justify-center gap-4">
-         
           <label className='w-full mr-4 ml-4 sm:mr-0'>
             <p className="mb-1">
             Name <sup className="text-pink-200">*</sup>
@@ -83,47 +76,48 @@ function SignupForm() {
               className="h-[50px] sm:h-[42px] sm:w-[260px] rounded-md border border-sky-500  focus:outline-none pl-2"
             />
           </label>
-      
-        <label className="w-full mr-4 ml-4 sm:mr-0">
-          <p className="mb-1">
-            Email Address <sup className="text-pink-200">*</sup>
-          </p>
-          <input
-            required
-            type="text"
-            name="email"
-            value={email}
-            onChange={handleOnChange}
-            placeholder="Enter email address"
-            className="h-[50px] sm:h-[42px] sm:w-[260px] rounded-md border border-sky-500  focus:outline-none pl-2"
-          />
-        </label>
-        <div className="w-full mr-4 ml-4 sm:mr-0">
-        <label className="relative">
+
+          <label className="w-full mr-4 ml-4 sm:mr-0">
             <p className="mb-1">
-              Create Password <sup className="text-pink-200">*</sup>
+              Email Address <sup className="text-pink-200">*</sup>
             </p>
             <input
               required
-              type={showPassword ? "text" : "password"}
-              name="password"
-              value={password}
+              type="text"
+              name="email"
+              value={email}
               onChange={handleOnChange}
-              placeholder="Enter Password"
-              className="h-[50px] sm:h-[42px] sm:w-[260px] rounded-md border border-sky-500 focus:outline-none pl-2"
+              placeholder="Enter email address"
+              className="h-[50px] sm:h-[42px] sm:w-[260px] rounded-md border border-sky-500  focus:outline-none pl-2"
             />
-            <span
-              onClick={() => setShowPassword((prev) => !prev)}
-              className="absolute right-2 top-[38px] z-[10] cursor-pointer mt-1"
-            >
-              {showPassword ? (
-                <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF" />
-              ) : (
-                <AiOutlineEye fontSize={24} fill="#AFB2BF" />
-              )}
-            </span>
           </label>
-        </div>
+
+          <div className="w-full mr-4 ml-4 sm:mr-0">
+          <label className="relative">
+              <p className="mb-1">
+                Create Password <sup className="text-pink-200">*</sup>
+              </p>
+              <input
+                required
+                type={showPassword ? "text" : "password"}
+                name="password"
+                value={password}
+                onChange={handleOnChange}
+                placeholder="Enter Password"
+                className="h-[50px] sm:h-[42px] sm:w-[260px] rounded-md border border-sky-500 focus:outline-none pl-2"
+              />
+              <span
+                onClick={() => setShowPassword((prev) => !prev)}
+                className="absolute right-2 top-[38px] z-[10] cursor-pointer mt-1"
+              >
+                {showPassword ? (
+                  <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF" />
+                ) : (
+                  <AiOutlineEye fontSize={24} fill="#AFB2BF" />
+                )}
+              </span>
+            </label>
+          </div>
        
         <button
           type="submit"
@@ -131,7 +125,6 @@ function SignupForm() {
         >
         Next  
         </button>
-       
       </form>
     </div>
   )

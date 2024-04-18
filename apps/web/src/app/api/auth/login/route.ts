@@ -9,7 +9,6 @@ dotenv.config();
 connectToMongoDB();
  
 export async function POST(req: NextRequest){
-     
     const reqBody = await req.json()
 	try {
 		const { email, password} : { email: string, password: string } = reqBody;
@@ -20,10 +19,7 @@ export async function POST(req: NextRequest){
 			}, { status: 400 });
 		}
 
-		// find  the user  
 		const user = await User.findOne({ email });
-
-		// If user not found  
 		if (!user) {
 			return NextResponse.json({
 				success: false,
@@ -49,19 +45,18 @@ export async function POST(req: NextRequest){
 				expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
 				httpOnly: true,
 			};
-			
-
+		
             const response = NextResponse.json({
 				message: "User login successful",
 				success: true,
 				user: user,
 				token: token,
 			})
-			response.cookies.set("token", token, {
-				httpOnly: true,
-			})
+			// response.cookies.set("token", token, {
+			// 	httpOnly: true,
+			// })
+			response.cookies.set("token", token)
 			return response;
-
 		} else {
 			return  NextResponse.json({
 				success: false,

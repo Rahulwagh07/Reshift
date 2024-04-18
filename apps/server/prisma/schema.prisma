@@ -17,15 +17,16 @@ model Group {
   id        String     @id @default(uuid())
   taskId    String?
   messages  Message[]
-  createdAt DateTime @default(now()) @map("created_at")
+  createdAt DateTime   @default(now()) @map("created_at")
 }
 
 model Message {
-  id        String     @id @default(uuid())
+  id        String   @id @default(uuid())
   text      String
   userId    String
+  userName  String   
   createdAt DateTime @default(now()) @map("created_at")
-  published Boolean @default(false)
+  published Boolean  @default(false)
   group     Group    @relation(fields: [groupId], references: [id])
   groupId   String
 }

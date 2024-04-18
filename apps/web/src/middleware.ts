@@ -95,5 +95,6 @@ export const config = {
     '/admin/dashboard',
     '/login',
     '/signup',
+    '/api/admin/getmebers',
   ],
 };

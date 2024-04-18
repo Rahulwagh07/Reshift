@@ -1,38 +1,23 @@
 import { NextResponse } from "next/server"
 import type { NextRequest } from "next/server";
 import { connectToMongoDB } from "../../../../lib/database";
-import { ACCOUNT_TYPE } from "../../../../lib/constants";
 import Project from "../../../../models/Project";
 
 connectToMongoDB();
+
 // For creating a new Project
 export async function POST(req: NextRequest) {
   try {
-
-    const { name, description, members, tasks, user} = await req.json();
-    // const userId = req.user.id;  //to do 
-
-    //check user role
-    if(user.accountType !== ACCOUNT_TYPE.ADMIN){
-      return NextResponse.json({
-        success: false,
-        message: "User is not a admin",
-      }, {status: 500})
-    }
-
-    //create a new project
+    const { name, description} = await req.json();
+    const userId = req.headers.get('userId');
     const newProject = new Project({
       name,
       description,
-      admin : user?._id,
-      members,
-      tasks,
+      admin : userId,
     });
 
-    // Save the project to the database
     const savedProject = await newProject.save();
 
-    //Response with the saved project
     return  NextResponse.json({
         success:true,
         data: savedProject,
@@ -45,7 +30,6 @@ export async function POST(req: NextRequest) {
     }, {status : 500});
   }
 }
-
 
 //For getting all project by an admin
 //why GET req is  not working if userId not passed directly ??????

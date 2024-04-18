@@ -1,5 +1,4 @@
 "use client";
-
 import { Drawer } from "vaul";
 import { useEffect, useRef, useState } from "react";
 import autoAnimate from "@formkit/auto-animate";
@@ -20,7 +19,6 @@ const ResponsiveDrawer = ({ children }: { children: React.ReactNode }) => (
     </div>
   </div>
 );
-
  
 export function Chatbox({ taskId }: { taskId: string }) {
   const parent = useRef(null);

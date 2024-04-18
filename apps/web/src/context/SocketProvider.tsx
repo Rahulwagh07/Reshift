@@ -8,8 +8,9 @@ interface SocketProviderProps {
 
 interface Message{
     text: string,
-    groupId: string,
+    taskId: string,
     userId: string,
+    userName: string,
 }
 
 interface ISocketContext {

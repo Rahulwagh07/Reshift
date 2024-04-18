@@ -12,6 +12,7 @@ CREATE TABLE "Message" (
     "id" TEXT NOT NULL,
     "text" TEXT NOT NULL,
     "userId" TEXT NOT NULL,
+    "userName" TEXT NOT NULL,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "published" BOOLEAN NOT NULL DEFAULT false,
     "groupId" TEXT NOT NULL,

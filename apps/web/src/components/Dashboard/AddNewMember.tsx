@@ -4,6 +4,7 @@ import { toast } from 'react-hot-toast';
 import { useParams } from 'next/navigation';
 import { RootState } from '../../redux/store';
 import { apiConnector } from '../../lib/apiConnector';
+import { IoSendOutline } from "react-icons/io5";
 
 function AddNewMember() {
   const { token } = useSelector((state: RootState) => state.auth);
@@ -20,13 +21,10 @@ function AddNewMember() {
       });
       if (response.data.success === true) {
         toast.success("Invitation sent successfully");
-        console.log("res", response.data.data);
       } else {
         toast.error("Failed to send invitation");
-        console.log("Error in adding the new member:", response.data.message);
       }
     } catch (error) {
-      console.error("Error", error);
       toast.error("Failed to send invitation");
     }
     toast.dismiss(toastId);
@@ -42,8 +40,8 @@ function AddNewMember() {
   };
 
   return (
-    <div>
-      <form onSubmit={handleOnSubmit}>
+      <form onSubmit={handleOnSubmit} className='mt-8 flex flex-col gap-4 items-center'>
+        <h2 className='text-2xl font-semibold'>Send Invite to add new member for your project</h2>
         <input  
           type="email"
           placeholder="Enter email address"
@@ -51,9 +49,8 @@ function AddNewMember() {
           value={email}
           onChange={handleEmailChange}
         />
-        <button type="submit">Send Invitation</button>
+        <button type="submit" className='border border-blue-150 rounded-md px-4 py-2 flex items-center gap-2'> <span>Send</span> <IoSendOutline/></button>
       </form>
-    </div>
   );
 }
 

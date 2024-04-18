@@ -3,10 +3,9 @@ import fs from "fs";
 import path from "path";
 import {config as configDotenv} from "dotenv"
 import { PrismaClient } from '@prisma/client'
+configDotenv();
 
 const prismaClient = new PrismaClient();
-
-configDotenv();
 const kafkaHost = process.env.KAFKA_HOST;
 const kafkaUsername = process.env.KAFKA_USERNAME;
 const kafkaPassword = process.env.KAFKA_PASSWORD;
@@ -55,27 +54,29 @@ export async function startMessageConsumer() {
 
       const messageString = message.value!.toString();
       const messageObject = JSON.parse(messageString);
-      const { text, groupId, userId } = messageObject.message;
+      const { text, taskId, userId, userName } = messageObject.message;
       try {
-        let groupID: string;
-      
+        let groupId: string;
+     
         // Check if the group already exists
-        const existingGroup = await prismaClient.group.findUnique({
+        const existingGroup = await prismaClient.group.findFirst({
           where: {
-            id: groupId
-          },
+            taskId: {
+              equals: taskId
+            }
+          }
         });
-      
+       
         // If the group doesn't exist, create it
         if (!existingGroup) {
           const newGroup = await prismaClient.group.create({
             data: {
-              taskId: groupId,
+              taskId: taskId,
             },
           });
-          groupID = newGroup.id;
+          groupId = newGroup.id;
         } else {
-          groupID = existingGroup.id;
+          groupId = existingGroup.id;
         }
       
         // Create the message
@@ -84,6 +85,7 @@ export async function startMessageConsumer() {
             text: text,
             groupId: groupId,
             userId: userId,
+            userName: userName,
           },
         });
       } catch (error) {
@@ -93,7 +95,7 @@ export async function startMessageConsumer() {
           consumer.resume([{ topic: "GROUPCHATS" }]);
         }, 60 * 1000);
       }
-      
+    
     },
   });
 }

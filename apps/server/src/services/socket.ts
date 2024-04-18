@@ -9,7 +9,6 @@ configDotenv();
 
 const redisurl = process.env.REDIS_URL;
 const pub = new Redis(`${redisurl}`);
-
 const sub = new Redis(`${redisurl}`);
 
 class SocketService {
@@ -28,7 +27,6 @@ class SocketService {
   public initListeners() {
     const io = this.io;
     io.on("connect", (socket) => {
-      console.log(`New socket connected..`, socket.id);
       socket.on("event:message", async ({ message }: { message: string }) => {
         await pub.publish("GROUPCHATS", JSON.stringify({ message }));
       });
@@ -38,7 +36,6 @@ class SocketService {
       if (channel === "GROUPCHATS") {
         io.emit("message", message);
         await produceMessage(message);
-        
       }
     });
   }
