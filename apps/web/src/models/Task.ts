@@ -2,43 +2,43 @@ import mongoose, { Document} from 'mongoose';
 
 const taskSchema = new mongoose.Schema({
     title: { 
-        type: String, 
-        required: true 
+      type: String, 
+      required: true 
     },
 
     description: { 
-        type: String 
+      type: String 
     },
 
     dueDate: { 
-        type: Date 
+      type: Date 
     },
 
     priority: { 
-        type: String, enum: ['low', 'medium', 'high'], 
-        default: 'medium' 
+      type: String, enum: ['low', 'medium', 'high'], 
+      default: 'medium' 
     },
 
     status: { 
-        type: String, 
-        enum: ['To-Do', 'In Progress', 'Completed'], 
-        default: 'To-Do' 
+      type: String, 
+      enum: ['To-Do', 'In Progress', 'Completed'], 
+      default: 'To-Do' 
     },
 
     assignedUser: { 
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'User' 
+      type: mongoose.Schema.Types.ObjectId, 
+      ref: 'User' 
     },
   });
 
 interface Task {
-    title: string;
-    description?: string;
-    dueDate?: Date;
-    priority?: 'low' | 'medium' | 'high';
-    status?: 'To-Do' | 'In Progress' | 'Completed';
-    assignedUser?: mongoose.Types.ObjectId | { type: mongoose.Types.ObjectId; ref: 'User' };
-  }
+  title: string;
+  description?: string;
+  dueDate?: Date;
+  priority?: 'low' | 'medium' | 'high';
+  status?: 'To-Do' | 'In Progress' | 'Completed';
+  assignedUser?: mongoose.Types.ObjectId | { type: mongoose.Types.ObjectId; ref: 'User' };
+}
 
 //   interface TaskDocument extends Task, Document {}
   

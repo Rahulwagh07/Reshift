@@ -23,26 +23,25 @@ const AddMemberPage = () => {
     const sendInvite = async () => {
       const toastId = toast.loading("processing")
       try {
-          const response = await apiConnector("POST", "/api/acceptinvite", 
-            {email, secretToken,},
-            {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-            });
+        const response = await apiConnector("POST", "/api/acceptinvite", 
+          {email, secretToken,},
+          {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+          });
       } catch (error) {
         toast.error("pls try again")
-        console.log(error)
         }
       toast.dismiss(toastId)
     }
     const handleOnSubmit = (e:any) => {
-        e.preventDefault()
-        // Reset
-        setFormData({
-        email: "",
-        secretToken: "",
-        })
-        sendInvite();
+      e.preventDefault()
+      // Reset
+      setFormData({
+      email: "",
+      secretToken: "",
+      })
+      sendInvite();
     }  
 
     return (

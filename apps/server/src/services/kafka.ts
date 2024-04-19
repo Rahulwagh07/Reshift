@@ -54,7 +54,7 @@ export async function startMessageConsumer() {
 
       const messageString = message.value!.toString();
       const messageObject = JSON.parse(messageString);
-      const { text, taskId, userId, userName } = messageObject.message;
+      const { text, groupId: taskId, userId, userName } = messageObject.message;
       try {
         let groupId: string;
      

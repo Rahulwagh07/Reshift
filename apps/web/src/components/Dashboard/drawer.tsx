@@ -2,7 +2,7 @@
 import { Drawer } from "vaul";
 import { useEffect, useRef, useState } from "react";
 import autoAnimate from "@formkit/auto-animate";
-import { PiChatDots } from "react-icons/pi";
+import { MdOutlineMessage } from "react-icons/md";
 import Chat from "./Chat";
  
 const ResponsiveDrawer = ({ children }: { children: React.ReactNode }) => (
@@ -32,14 +32,14 @@ export function Chatbox({ taskId }: { taskId: string }) {
         className="sm:bottom-auto sm:top-5"
         asChild >
           <button>
-          <PiChatDots/>
+          <MdOutlineMessage color="#075985" size={24}/>
           </button>
       </Drawer.Trigger>
 
       <Drawer.Portal>
         <Drawer.Overlay className="fixed inset-0 bg-black/40" />
         <Drawer.Content className="fixed bottom-0 right-0 z-40 mt-24 flex h-[96%] w-full flex-col rounded-t-[10px] bg-white md:h-full md:w-[400px]">
-          <Chat groupId={taskId}/>
+          <Chat taskId={taskId}/>
         </Drawer.Content>
       </Drawer.Portal>
     </ResponsiveDrawer>

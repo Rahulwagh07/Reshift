@@ -22,7 +22,6 @@ import Spinner from "../common/Spinner";
     
             if (response.data.success === true) {
                 setTaskData(response.data.data);
-                console.log("res", response.data.data)
             }
             setLoading(false) 
         } catch (error) {

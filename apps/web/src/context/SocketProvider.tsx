@@ -1,16 +1,10 @@
 "use client";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
+import { Message } from "../types/message";
 
 interface SocketProviderProps {
   children?: React.ReactNode;
-}
-
-interface Message{
-    text: string,
-    taskId: string,
-    userId: string,
-    userName: string,
 }
 
 interface ISocketContext {
@@ -33,9 +27,8 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
 
   const sendMessage: ISocketContext["sendMessage"] = useCallback(
     (msg) => {
-      console.log("Send Message", msg);
       if (socket) {
-        socket.emit("event:message", { message: msg });
+        socket.emit("event:message", { message: msg});
       }
     },
     [socket]

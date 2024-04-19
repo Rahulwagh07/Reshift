@@ -3,37 +3,37 @@ import { useSocket } from "../../context/SocketProvider";
 import { apiConnector } from "../../lib/apiConnector";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store";
-import { FaRegUserCircle } from "react-icons/fa";
 import Spinner from "../common/Spinner";
+import { Message } from "../../types/message";
 
-interface Message{
-  text: string,
-  taskId: string,
-  userId: string,
-  userName: string,
-}
+type CustomMessage = {
+  text: string;
+  groupId: string;
+  userId: string;
+  userName: string;
+};
 
 const Chat = ({ taskId }: { taskId: string }) => {
   const { messages, sendMessage } = useSocket();
   const { user } = useSelector((state: RootState) => state.profile);
-  const initialMessage: Message = {
+  const initialMessage: CustomMessage = {
     text: '',
-    taskId: taskId,
+    groupId: taskId,
     userId: user._id,
     userName: user.name,
   };
-  const [message, setMessage] = useState<Message>(initialMessage);
-  const [previousMessages, setPreviousMessages] = useState<string[]>([]);
+  const [message, setMessage] = useState<CustomMessage>(initialMessage);
+  const [previousMessages, setPreviousMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
 
   const getAllMessagesForGroup = async (taskId: string) => {
-    const url = `http://localhost:8000/api/messages?taskId=${taskId}`; 
+    const url = `http://localhost:8000/api/messages?taskId=${taskId}`;
+
     try {
       setLoading(true);
       const response = await apiConnector('GET', url, null);
   
       if (response.data) {
-        console.log("Messages for group:", response.data);
         setPreviousMessages(response.data);
         return response.data;
       } else {
@@ -65,23 +65,22 @@ const Chat = ({ taskId }: { taskId: string }) => {
       ) : (
         <div className="mt-6 flex flex-col">
           {previousMessages.length === 0 ? (
-            <Spinner></Spinner> 
+             <span>Start conversion</span> 
           ) : (
-            previousMessages.map((msg, index) => (
-              <div key={index} className="flex flex-col">
-                <div className="flex gap-2 items-baseline">
-                  <FaRegUserCircle/>
-                  <span className="text-red-500">{msg.userName}</span>
-                </div>
-                <span className="inline-block p-1 rounded-md border border-blue-150">{msg.text}</span>
+            previousMessages.map((msg: Message ) => (
+              <div key={msg._id} className={ ` flex mb-2 ${user?._id === msg.userId ? "justify-end" : "justify-start"}`}>
+                  <span className={`inline-block p-1 rounded-md border text-white ${user?._id === msg.userId ? "border-sky-500 bg-[#166534]" : "border-blue-150 bg-[#1e293b]"}`}>
+                    {msg.text}
+                  </span>
               </div>
             ))
           )}
           
-          {messages.map((msg, index) => (
-            <div key={index} className="flex flex-col">
-              <span>{msg.userName}</span>
-              <span>{msg.text}</span>
+          {messages.map((msg, index: number) => (
+            <div key={msg._id} className={ ` flex mb-2 ${user?._id === msg.userId ? "justify-end" : "justify-start"}`}>
+              <span className={`inline-block p-1 rounded-md border text-white ${user?._id === msg.userId ? "border-sky-500 bg-[#166534]" : "border-blue-150 bg-[#1e293b]"}`}>
+                {msg.text}
+              </span>
             </div>
           ))}
         </div>

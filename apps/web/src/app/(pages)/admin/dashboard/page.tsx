@@ -13,7 +13,8 @@ function AdminDashboard() {
     const [projects, setprojects] = useState<Project[]>([]);
     const router = useRouter();
     const [loading, setLoading] = useState(false)
-    const handleOnProjectClick = (projectId: string) => {
+
+    const handleOnClick = (projectId: string) => {
         return () => {
             router.push(`/admin/dashboard/${projectId}`);
         };
@@ -33,7 +34,6 @@ function AdminDashboard() {
             setLoading(false)
         } catch (error) {
             setLoading(false)
-            console.log("Error", error);
         }
     }
     
@@ -57,7 +57,7 @@ function AdminDashboard() {
             <div
             key={project._id}
             className='flex flex-col items-center cursor-pointer border border-blue-150 p-3 rounded-md'
-            onClick={handleOnProjectClick(project._id)}
+            onClick={handleOnClick(project._id)}
             >
             <span className='text-lg text-sky-400 font-semibold'>{project.name}</span>
             <p>{project.description}</p>

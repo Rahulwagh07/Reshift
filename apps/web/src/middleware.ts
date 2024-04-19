@@ -96,5 +96,7 @@ export const config = {
     '/login',
     '/signup',
     '/api/admin/getmebers',
+    '/api/dashboard',
+    '/api/updateStatus',
   ],
 };
